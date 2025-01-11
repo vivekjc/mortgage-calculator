@@ -1,0 +1,480 @@
+:root {
+    --primary-color: #6C5CE7;
+    --primary-hover: #8177E6;
+    --background-dark: #0F172A;
+    --background-card: #1E293B;
+    --text-primary: #E2E8F0;
+    --text-secondary: #94A3B8;
+    --border-color: #334155;
+    --input-background: #2D3748;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --sidebar-width: 280px;
+    --header-height: 32px;
+    --input-height: 32px;
+    --gap-size: 0.5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.container {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+        "header header"
+        "sidebar main";
+}
+
+h1 {
+    grid-area: header;
+    margin: 0.25rem 0;
+    padding: 0 0.75rem;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.calculator-grid {
+    display: block;
+    gap: 0;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.input-section {
+    grid-area: sidebar;
+    background: var(--background-card);
+    padding: 0.75rem;
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+    gap: 0.5rem;
+}
+
+.main-section {
+    grid-area: main;
+    display: grid;
+    grid-template-rows: 1.8fr 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+label {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+input[type="number"] {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    width: 100%;
+    min-height: 36px;
+}
+
+.down-payment-container {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.radio-group {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.graph-section {
+    width: 100%;
+    height: 100%;
+    background: var(--background-card);
+    border-radius: 18px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+}
+
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+        grid-template-areas: 
+            "header"
+            "sidebar"
+            "main";
+        height: 100vh;
+    }
+
+    .input-section {
+        height: auto;
+        max-height: 40vh;
+    }
+
+    .main-section {
+        height: auto;
+    }
+}
+
+/* Add these styles for the select input */
+.select-input {
+    padding: 0.4rem 24px 0.4rem 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    width: 100%;
+    min-height: var(--input-height);
+    background-color: var(--input-background);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding-left: 32px;  /* Space for icon */
+}
+
+.select-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+}
+
+/* Add these styles */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.breakdown-section {
+    margin-top: 0;
+    padding: 0.4rem;
+    background: var(--background-card);
+    border-radius: 12px;
+}
+
+.breakdown-section h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+.breakdown-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.4rem;
+    background: var(--input-background);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.breakdown-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.breakdown-item.total {
+    grid-column: 1 / -1;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.breakdown-label {
+    font-size: 0.75rem;
+    color: inherit;
+}
+
+.breakdown-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: inherit;
+}
+
+/* Add these styles */
+.bay-area-rates {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.bay-area-rates h3 {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bay-area-rates h3 i {
+    color: var(--primary-color);
+}
+
+/* Add scrollbar styling */
+.input-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.input-section::-webkit-scrollbar-track {
+    background: var(--background-card);
+}
+
+.input-section::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.input-section::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Add back the button styles */
+.calculate-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: var(--input-height);
+    width: 100%;
+    margin: 0.4rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.calculate-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+/* Add these styles */
+input[type="number"].currency {
+    text-align: right;
+    padding-right: 10px;
+}
+
+/* Optional: Add dollar sign before input */
+.currency-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-wrapper::before {
+    content: '$';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color);
+    z-index: 1;
+    font-size: 0.85rem;
+}
+
+.currency-wrapper input[type="text"] {
+    padding: 0.4rem 24px 0.4rem 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    width: 100%;
+    min-height: var(--input-height);
+    -moz-appearance: textfield;
+    text-align: right;
+    background-color: var(--input-background);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    padding-left: 32px;  /* Space for icon */
+}
+
+/* Add spinner buttons */
+.currency-wrapper input[type="text"]::-webkit-inner-spin-button,
+.currency-wrapper input[type="text"]::-webkit-outer-spin-button {
+    opacity: 1;
+    height: 36px;
+}
+
+/* Style the increment/decrement buttons */
+.currency-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.currency-controls {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-color);
+    background: var(--input-background);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.currency-control-btn {
+    padding: 0;
+    width: 20px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.currency-control-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+}
+
+.currency-control-btn:first-child {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Add these styles for number inputs */
+.number-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.number-wrapper input[type="text"] {
+    padding: 0.4rem 24px 0.4rem 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    width: 100%;
+    min-height: var(--input-height);
+    -moz-appearance: textfield;
+    text-align: right;
+    background-color: var(--input-background);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    padding-left: 32px;  /* Space for icon */
+}
+
+.number-controls {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-color);
+    background: var(--input-background);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.number-control-btn {
+    padding: 0;
+    width: 20px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.number-control-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--text-primary);
+}
+
+.number-control-btn:first-child {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Update down payment container for new input style */
+.down-payment-container {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.down-payment-container .number-wrapper {
+    flex: 1;
+}
+
+/* Tooltips */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    background: var(--background-dark);
+    color: var(--text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    z-index: 1000;
+    white-space: nowrap;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+} 

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage Calculator</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Mortgage Payment Calculator</h1>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <i class="fas fa-home"></i>
+                <label for="housePrice">House Price ($)</label>
+                <div class="currency-wrapper">
+                    <input type="text" id="housePrice" value="700,000" class="currency" inputmode="numeric">
+                    <div class="currency-controls">
+                        <button type="button" class="currency-control-btn" data-action="increment">▲</button>
+                        <button type="button" class="currency-control-btn" data-action="decrement">▼</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-piggy-bank"></i>
+                <label for="downPayment">Down Payment</label>
+                <div class="down-payment-container">
+                    <div class="number-wrapper">
+                        <input type="text" id="downPayment" value="20" class="number-input" inputmode="numeric">
+                        <div class="number-controls">
+                            <button type="button" class="number-control-btn" data-action="increment">▲</button>
+                            <button type="button" class="number-control-btn" data-action="decrement">▼</button>
+                        </div>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="percentage" name="downPaymentType" value="percentage" checked>
+                        <label for="percentage">%</label>
+                        <input type="radio" id="amount" name="downPaymentType" value="amount">
+                        <label for="amount">$</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-percent"></i>
+                <label for="interestRate">Interest Rate (%)</label>
+                <div class="number-wrapper">
+                    <input type="text" id="interestRate" value="7.0" class="number-input" inputmode="numeric">
+                    <div class="number-controls">
+                        <button type="button" class="number-control-btn" data-action="increment">▲</button>
+                        <button type="button" class="number-control-btn" data-action="decrement">▼</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="loanTerm">Loan Term (years)</label>
+                <div class="number-wrapper">
+                    <input type="text" id="loanTerm" value="30" class="number-input" inputmode="numeric">
+                    <div class="number-controls">
+                        <button type="button" class="number-control-btn" data-action="increment">▲</button>
+                        <button type="button" class="number-control-btn" data-action="decrement">▼</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="priceIncrement">Price Increment ($)</label>
+                <select id="priceIncrement" class="select-input">
+                    <option value="25000">$25,000</option>
+                    <option value="50000" selected>$50,000</option>
+                    <option value="100000">$100,000</option>
+                    <option value="250000">$250,000</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="includeHoa">
+                    Include HOA Fees ($400/month)
+                </label>
+            </div>
+
+            <div class="input-group">
+                <button id="calculateBtn" class="calculate-btn">
+                    <i class="fas fa-calculator"></i>
+                    Calculate
+                </button>
+            </div>
+
+            <div class="bay-area-rates">
+                <h3>
+                    <i class="fas fa-landmark"></i>
+                    Bay Area Specific Rates
+                </h3>
+                <div class="input-group">
+                    <label for="propertyTaxRate">Property Tax Rate (%)</label>
+                    <div class="number-wrapper">
+                        <input type="text" id="propertyTaxRate" value="1.25" class="number-input" inputmode="numeric">
+                        <div class="number-controls">
+                            <button type="button" class="number-control-btn" data-action="increment">▲</button>
+                            <button type="button" class="number-control-btn" data-action="decrement">▼</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="pmiRate">PMI Rate (%)</label>
+                    <div class="number-wrapper">
+                        <input type="text" id="pmiRate" value="1.0" class="number-input" inputmode="numeric">
+                        <div class="number-controls">
+                            <button type="button" class="number-control-btn" data-action="increment">▲</button>
+                            <button type="button" class="number-control-btn" data-action="decrement">▼</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="insuranceBase">Base Insurance ($/year)</label>
+                    <div class="currency-wrapper">
+                        <input type="text" id="insuranceBase" value="1,500" class="currency" inputmode="numeric">
+                        <div class="currency-controls">
+                            <button type="button" class="currency-control-btn" data-action="increment">▲</button>
+                            <button type="button" class="currency-control-btn" data-action="decrement">▼</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="insuranceRate">Insurance Rate (% of home value)</label>
+                    <div class="number-wrapper">
+                        <input type="text" id="insuranceRate" value="0.1" class="number-input" inputmode="numeric">
+                        <div class="number-controls">
+                            <button type="button" class="number-control-btn" data-action="increment">▲</button>
+                            <button type="button" class="number-control-btn" data-action="decrement">▼</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="utilities">Monthly Utilities ($)</label>
+                    <div class="currency-wrapper">
+                        <input type="text" id="utilities" value="250" class="currency" inputmode="numeric">
+                        <div class="currency-controls">
+                            <button type="button" class="currency-control-btn" data-action="increment">▲</button>
+                            <button type="button" class="currency-control-btn" data-action="decrement">▼</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="hoaFee">Monthly HOA Fee ($)</label>
+                    <div class="currency-wrapper">
+                        <input type="text" id="hoaFee" value="400" class="currency" inputmode="numeric">
+                        <div class="currency-controls">
+                            <button type="button" class="currency-control-btn" data-action="increment">▲</button>
+                            <button type="button" class="currency-control-btn" data-action="decrement">▼</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-section">
+            <div class="graph-section">
+                <div id="graph"></div>
+            </div>
+
+            <div class="breakdown-section" id="breakdownSection">
+                <h2>Monthly Payment Breakdown</h2>
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Mortgage Payment</span>
+                        <span class="breakdown-value" id="mortgageValue">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Property Tax</span>
+                        <span class="breakdown-value" id="taxValue">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Home Insurance</span>
+                        <span class="breakdown-value" id="insuranceValue">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">PMI</span>
+                        <span class="breakdown-value" id="pmiValue">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Utilities</span>
+                        <span class="breakdown-value" id="utilitiesValue">$0</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">HOA Fees</span>
+                        <span class="breakdown-value" id="hoaValue">$0</span>
+                    </div>
+                    <div class="breakdown-item total">
+                        <span class="breakdown-label">Total Monthly Payment</span>
+                        <span class="breakdown-value" id="totalValue">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
